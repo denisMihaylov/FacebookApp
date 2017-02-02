@@ -34,4 +34,10 @@
 		<servlet-name>Registration</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>HelloTest</servlet-name>
+		<url-pattern>/hello</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

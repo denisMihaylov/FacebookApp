@@ -9,6 +9,6 @@ public interface UserService {
 	public User getUserById(int id);
 	public User getUserByEmail(String email);
 	public List<User> getAllUsers();
-	public User registerUser(User user);
+	public void registerUser(User user);
 
 }

@@ -25,11 +25,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User registerUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void registerUser(User user) {
+		getDao().addUser(user);
 	}
-	
+
 	private UserDao getDao() {
 		return DaoFactory.getUserDao();
 	}

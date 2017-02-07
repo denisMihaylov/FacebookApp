@@ -9,54 +9,44 @@
 	<div class="form">
 
 		<ul class="tab-group">
-			<li class="tab active"><a onclick="goToRegistration();return false;">Register</a></li>
-			<li class="tab"><a onclick="goToLogin();return false;">Log In</a></li>
+			<li class="tab active" id="registerTab"><a onclick="goToRegistration();return false;">Register</a></li>
+			<li class="tab" id="loginTab"><a onclick="goToLogin();return false;">Log In</a></li>
 		</ul>
 
 		<div class="tab-content">
 			<div id="register">
 				<h1>Sign Up for Free</h1>
-				<form action="/" method="post">
+				<form action="/register" method="post">
 					<div class="top-row">
 						<div class="field-wrap">
-							<label> First Name<span class="req">*</span>
-							</label> <input type="text" required autocomplete="off" />
+							<input type="text" required placeholder="First Name*"/>
 						</div>
 						<div class="field-wrap">
-							<label> Last Name<span class="req">*</span>
-							</label> <input type="text" required autocomplete="off" />
+							<input type="text" required placeholder="Last Name*"/>
 						</div>
 					</div>
 					<div class="field-wrap">
-						<label> Email Address<span class="req">*</span>
-						</label> <input type="email" required autocomplete="off" />
+						<input type="email" required placeholder="Email Address*" />
 					</div>
 					<div class="field-wrap">
-						<label> Set A Password<span class="req">*</span>
-						</label> <input type="password" required autocomplete="off" />
+						<input type="password" required placeholder="Enter password*"/>
 					</div>
-					<button type="submit" class="button button-block">
-					Get Started
-					</button>
+					<button type="submit" class="button button-block">Get Started</button>
 				</form>
 			</div>
 			<div id="login" style="display:none">
 				<h1>Welcome Back!</h1>
-				<form action="/" method="post">
+				<form action="/login" method="post">
 					<div class="field-wrap">
-						<label> Email Address<span class="req">*</span>
-						</label> <input type="email" required autocomplete="off" />
+						<input type="email" required placeholder="Email Address*" />
 					</div>
 					<div class="field-wrap">
-						<label> Password<span class="req">*</span>
-						</label> <input type="password" required autocomplete="off" />
+						<input type="password" required placeholder="Enter password*"/>
 					</div>
-					<p class="forgot">
-						<a href="#">Forgot Password?</a>
+					<p class="login-button">
+						<button type="submit" class="button button-block" >Log In</button>
 					</p>
-					<button class="button button-block" >
-					Log In
-					</button>
+					<button class="button button-block" >Forgot Password?</button>
 				</form>
 			</div>
 		</div>

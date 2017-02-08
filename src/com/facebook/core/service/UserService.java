@@ -10,6 +10,6 @@ public interface UserService {
 	public User getUserById(int id);
 	public User getUserByEmail(String email);
 	public List<User> getAllUsers();
-	public void registerUser(User user) throws FacebookAppException;
+	public int registerUser(User user) throws FacebookAppException;
 
 }

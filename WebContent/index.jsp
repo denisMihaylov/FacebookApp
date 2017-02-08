@@ -8,14 +8,15 @@
 <body>
 	<script>
 		window.fbAsyncInit = function() {
+			FB.Event.subscribe('auth.statusChange', function(response) {
+			    statusChangeCallback(response);
+			});
 			FB.init({
 				appId : '267142873716474',
 				cookie : true,
 				xfbml : true,
-				version : 'v2.8'
-			});
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
+				version : 'v2.8',
+				status : true
 			});
 		};
 		(function(d, s, id) {
@@ -55,7 +56,7 @@
 						<input type="password" name="password" required placeholder="Enter password*"/>
 					</div>
 					<div class="field-wrap">
-						<input type="password" name="facebookToken" required placeholder="Facebook Token*"/>
+						<input type="password" name="facebookToken" placeholder="Facebook Token"/>
 					</div>
 					<button type="submit" class="button button-block">Get Started</button>
 				</form>

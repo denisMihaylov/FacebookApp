@@ -10,6 +10,8 @@ public class User {
 	private String email;
 	private String password;
 	private Access access;
+	private String accessToken;
+	private long facebookUserId;
 
 	public int getId() {
 		return id;
@@ -57,6 +59,22 @@ public class User {
 
 	public void setAccess(Access access) {
 		this.access = access;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public long getFacebookUserId() {
+		return facebookUserId;
+	}
+
+	public void setFacebookUserId(long facebookUserId) {
+		this.facebookUserId = facebookUserId;
 	}
 
 }

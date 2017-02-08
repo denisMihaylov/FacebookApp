@@ -1,22 +1,11 @@
-function changeActive(id, isActivate) {
-	var element = document.getElementById(id);
-	if (isActivate) {
-		element.className += ' active';
-	} else {
-		element.className = element.className.replace(' active', '');
+var startIndex = window.location.href.indexOf("id=") + "id=".length;
+var id = window.location.href.substr(startIndex);
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/FacebookApp/home?id=' + id, true);
+
+xhr.onreadystatechange = function() {
+	if (xhr.readyState === 4 && xhr.status === 200) {
+		console.log(xhr.responseText);
 	}
 }
-
-function goToRegistration() {
-	document.getElementById('register').style.display = 'block';
-	document.getElementById('login').style.display = 'none';
-	changeActive('loginTab', false);
-	changeActive('registerTab', true);
-}
-
-function goToLogin() {
-	document.getElementById('login').style.display = 'block';
-	document.getElementById('register').style.display = 'none';
-	changeActive('loginTab', true);
-	changeActive('registerTab', false);
-}
+xhr.send(null);

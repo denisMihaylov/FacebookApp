@@ -16,21 +16,29 @@ import com.facebook.core.model.types.Access;
 
 public class UserDao extends BaseDao {
 
-	public void addUser(User user) throws FacebookAppException {
+	public int addUser(User user) throws FacebookAppException {
 		Connection con = DBConnectionProvider.get();
 		try {
-			PreparedStatement registerStatement = con.prepareStatement("INSERT INTO public.user values(?,?,?,?,?)");
+			PreparedStatement registerStatement = con.prepareStatement("INSERT INTO public.user "
+					+ "(first_name, last_name, email, password, access, access_token, facebook_user_id) "
+					+ "values(?,?,?,?,?,?,?) RETURNING ID");
 			registerStatement.setString(1, user.getFirstName());
 			registerStatement.setString(2, user.getLastName());
 			registerStatement.setString(3, user.getEmail());
 			registerStatement.setString(4, user.getPassword());
 			registerStatement.setString(5, user.getAccess().name());
-			registerStatement.executeUpdate();
+			registerStatement.setString(6, user.getAccessToken());
+			registerStatement.setLong(7, user.getFacebookUserId());
+			ResultSet rs = registerStatement.executeQuery();
+			rs.next();
+			return rs.getInt(1);
 		} catch (SQLException e) {
 			if (e.getMessage().contains("unique_email")) {
 				throw new ExistingEmailException("User already registered");
+			} else {
+				e.printStackTrace();
+				throw new FacebookAppException(e.getMessage());
 			}
-			e.printStackTrace();
 		}
 	}
 

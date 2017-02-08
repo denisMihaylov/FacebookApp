@@ -30,4 +30,14 @@
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>Home</servlet-name>
+		<servlet-class>com.facebook.servlet.HomeServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Home</servlet-name>
+		<url-pattern>/home</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

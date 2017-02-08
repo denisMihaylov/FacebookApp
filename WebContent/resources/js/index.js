@@ -1,45 +1,60 @@
-// This is called with the results from from FB.getLoginStatus().
+var isRegister = false;
+var user = undefined;
 function statusChangeCallback(response) {
-	console.log('statusChangeCallback');
+	if (isRegister) {
+		isRegister = false;
+		return;
+	}
 	console.log(response);
-	// The response object is returned with a status field that lets the
-	// app know the current login status of the person.
-	// Full docs on the response object can be found in the documentation
-	// for FB.getLoginStatus().
 	if (response.status === 'connected') {
-		// Logged into your app and Facebook.
-		testAPI();
+		console.log("User is logged and has granted access to the application.");
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', '/login', true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.send(JSON.stringify({
+			facebookUserId : response.userID
+		}));
 	} else if (response.status === 'not_authorized') {
-		// The person is logged into Facebook, but not your app.
+		console.log("User is logged in facebook but has not authorized the application");
 	} else {
-		// The person is not logged into Facebook, so we're not sure if
-		// they are logged into this app or not.
+		console.log("User is not logged in facebook. Needs to log to get the information");
 	}
 }
 
-// This function is called when someone finishes with the Login
-// Button. See the onlogin handler attached to it in the sample
-// code below.
-function checkLoginState() {
-	FB.getLoginStatus(function(response) {
-		statusChangeCallback(response);
-	});
-}
-
 function facebookLogin() {
+	isRegister = true;
 	FB.login(function(response) {
 		console.log(response);
 		if (response.authResponse) {
 			console.log('User is authenticated');
-			FB.api('/me', function(response) {
-				console.log('Good to see you, ' + response.name + '.');
+			var accessToken = response.authResponse.accessToken;
+			FB.api('/me', {
+				fields : 'first_name, last_name, email'
+			}, function(response) {
+				console.log(response);
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', '/FacebookApp/register', true);
+				xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						window.location.href += ("home.jsp?id=" + xhr.responseText);
+					}
+				}
+				xhr.send(JSON.stringify({
+					firstName : response.first_name,
+					lastName : response.last_name,
+					email : response.email,
+					facebookUserId : response.id,
+					accessToken : accessToken
+				}));
 			});
 		} else {
 			console.log('User cancelled login or did not fully authorize.');
 		}
 	}, {
-		scope : 'public_profile, email',
-		return_scopes: true
+		scope : 'public_profile, email, user_managed_groups',
+		return_scopes : true
 	});
 }
 

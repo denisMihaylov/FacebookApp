@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void registerUser(User user) throws FacebookAppException {
-		getDao().addUser(user);
+	public int registerUser(User user) throws FacebookAppException {
+		return getDao().addUser(user);
 	}
 
 	private UserDao getDao() {

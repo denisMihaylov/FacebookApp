@@ -14,10 +14,12 @@ public class HomeServlet extends HttpServlet {
 		super();
 	}
 
-	protected void deGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int userId = Integer.valueOf(request.getParameter("id"));
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 	}
 
 }

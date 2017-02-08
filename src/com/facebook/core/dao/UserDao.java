@@ -1,6 +1,7 @@
 package com.facebook.core.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,13 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.facebook.core.db.DBConnectionProvider;
+import com.facebook.core.error.ExistingEmailException;
+import com.facebook.core.error.FacebookAppException;
 import com.facebook.core.model.User;
 import com.facebook.core.model.types.Access;
 
 public class UserDao extends BaseDao {
 
-	public void addUser(User user) {
-
+	public void addUser(User user) throws FacebookAppException {
+		Connection con = DBConnectionProvider.get();
+		try {
+			PreparedStatement registerStatement = con.prepareStatement("INSERT INTO public.user values(?,?,?,?,?)");
+			registerStatement.setString(1, user.getFirstName());
+			registerStatement.setString(2, user.getLastName());
+			registerStatement.setString(3, user.getEmail());
+			registerStatement.setString(4, user.getPassword());
+			registerStatement.setString(5, user.getAccess().name());
+			registerStatement.executeUpdate();
+		} catch (SQLException e) {
+			if (e.getMessage().contains("unique_email")) {
+				throw new ExistingEmailException("User already registered");
+			}
+			e.printStackTrace();
+		}
 	}
 
 	public User getUserById(int id) {

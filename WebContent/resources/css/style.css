@@ -154,6 +154,10 @@ textarea {
 }
 
 .login-button {
-  margin-top: -20px;
-  text-align: right;
+  margin-bottom: 20px;
+}
+
+.facebook {
+  width:300px !important;
+  heigth:100px !important;
 }

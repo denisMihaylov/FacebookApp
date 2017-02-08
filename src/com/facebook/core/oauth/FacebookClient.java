@@ -1,0 +1,7 @@
+package com.facebook.core.oauth;
+
+public class FacebookClient {
+	private static final String USER_TOKEN = "EAADy9wwXlvoBAJBETkZCxMHVzpuVOMWZAH1huOZBUFCTS7KBUG3CXBP47zKmfdCqmeWw4rRTZASotZCYrSSnVvZAT1RlxUGSBgzLHLxBxaFcFT4ptQbVtxZAa527N2dVx5roln66K3tpWYZCrn3PTZCFDCKQYctEp8sTubZBhSZBylFZBUnUl3jzELRgrqjK1RGxevYZD";
+	
+	
+}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.facebook.core.dao.DaoFactory;
 import com.facebook.core.dao.UserDao;
+import com.facebook.core.error.FacebookAppException;
 import com.facebook.core.model.User;
 import com.facebook.core.service.UserService;
 
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void registerUser(User user) {
+	public void registerUser(User user) throws FacebookAppException {
 		getDao().addUser(user);
 	}
 

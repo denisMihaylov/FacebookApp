@@ -21,11 +21,6 @@
 	</resource-ref>
 
 	<servlet>
-		<servlet-name>HelloTest</servlet-name>
-		<servlet-class>com.facebook.servlet.HelloServlet</servlet-class>
-	</servlet>
-
-	<servlet>
 		<servlet-name>Registration</servlet-name>
 		<servlet-class>com.facebook.servlet.RegistrationServlet</servlet-class>
 	</servlet>
@@ -33,11 +28,6 @@
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
 		<url-pattern>/register</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>HelloTest</servlet-name>
-		<url-pattern>/hello</url-pattern>
 	</servlet-mapping>
 	
 </web-app>

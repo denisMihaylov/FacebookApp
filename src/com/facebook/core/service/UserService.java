@@ -7,7 +7,7 @@ import com.facebook.core.model.User;
 
 public interface UserService {
 	
-	public User getUserById(int id);
+	public User getUserById(int id) throws FacebookAppException;
 	public User getUserByEmail(String email);
 	public List<User> getAllUsers();
 	public int registerUser(User user) throws FacebookAppException;

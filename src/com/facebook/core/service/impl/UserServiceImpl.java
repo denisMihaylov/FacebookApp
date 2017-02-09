@@ -11,7 +11,7 @@ import com.facebook.core.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	@Override
-	public User getUserById(int id) {
+	public User getUserById(int id) throws FacebookAppException {
 		return getDao().getUserById(id);
 	}
 

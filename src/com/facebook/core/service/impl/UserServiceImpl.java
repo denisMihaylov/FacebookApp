@@ -30,8 +30,12 @@ public class UserServiceImpl implements UserService {
 		return getDao().addUser(user);
 	}
 
+	@Override
+	public User getUserByFacebookId(long facebookId) throws FacebookAppException {
+		return getDao().getUserByFacebookId(facebookId);
+	}
+
 	private UserDao getDao() {
 		return DaoFactory.getUserDao();
 	}
-
 }

@@ -54,6 +54,20 @@ public class UserDao extends BaseDao {
 			throw new FacebookAppException("Error while getting user by id");
 		}
 	}
+	
+	public User getUserByFacebookId(long facebookId) throws FacebookAppException {
+		String query = "SELECT * FROM public.user WHERE facebook_user_id = ?";
+		Connection connection = DBConnectionProvider.get();
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setLong(1, facebookId);
+			ResultSet resultSet = statement.executeQuery();
+			resultSet.next();
+			return getUserFromResultSet(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FacebookAppException("Error while getting user by id");
+		}
+	}
 
 	public User getUserByEmail(String email) {
 		// TODO Auto-generated method stub

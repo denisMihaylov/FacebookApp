@@ -11,5 +11,6 @@ public interface UserService {
 	public User getUserByEmail(String email);
 	public List<User> getAllUsers();
 	public int registerUser(User user) throws FacebookAppException;
+	public User getUserByFacebookId(long facebookId) throws FacebookAppException;
 
 }

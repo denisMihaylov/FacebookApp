@@ -1,5 +1,11 @@
 var isRegister = false;
 var user = undefined;
+
+function navToHome() {
+	if (this.readyState === 4 && this.status === 200) {
+		window.location.href += ("home.jsp?id=" + this.responseText);
+	}
+}
 function statusChangeCallback(response) {
 	if (isRegister) {
 		isRegister = false;
@@ -9,10 +15,11 @@ function statusChangeCallback(response) {
 	if (response.status === 'connected') {
 		console.log("User is logged and has granted access to the application.");
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/login', true);
+		xhr.open('POST', 'login', true);
 		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onreadystatechange = navToHome;
 		xhr.send(JSON.stringify({
-			facebookUserId : response.userID
+			facebookUserId : response.authResponse.userID
 		}));
 	} else if (response.status === 'not_authorized') {
 		console.log("User is logged in facebook but has not authorized the application");
@@ -33,14 +40,10 @@ function facebookLogin() {
 			}, function(response) {
 				console.log(response);
 				var xhr = new XMLHttpRequest();
-				xhr.open('POST', '/FacebookApp/register', true);
+				xhr.open('POST', 'register', true);
 				xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState === 4 && xhr.status === 200) {
-						window.location.href += ("home.jsp?id=" + xhr.responseText);
-					}
-				}
+				xhr.onreadystatechange = navToHome;
 				xhr.send(JSON.stringify({
 					firstName : response.first_name,
 					lastName : response.last_name,

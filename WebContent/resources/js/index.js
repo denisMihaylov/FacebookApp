@@ -19,7 +19,8 @@ function statusChangeCallback(response) {
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = navToHome;
 		xhr.send(JSON.stringify({
-			facebookUserId : response.authResponse.userID
+			facebookUserId : response.authResponse.userID,
+			accessToken : response.authResponse.accessToken
 		}));
 	} else if (response.status === 'not_authorized') {
 		console.log("User is logged in facebook but has not authorized the application");

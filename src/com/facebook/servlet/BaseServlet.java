@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.facebook.core.oauth.FacebookClient;
 import com.facebook.core.service.FacebookFeedService;
 import com.facebook.core.service.ServiceFactory;
 import com.facebook.core.service.UserService;
@@ -24,6 +25,10 @@ public abstract class BaseServlet extends HttpServlet {
 	
 	protected FacebookFeedService getFacebookFeedService() {
 		return ServiceFactory.getFacebookFeedService();
+	}
+	
+	protected FacebookClient getFacebookClient(String accessToken) {
+		return new FacebookClient(accessToken);
 	}
 
 	protected <T> T fromJson(HttpServletRequest request, Class<T> clazz) {

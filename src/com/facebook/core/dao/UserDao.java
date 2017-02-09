@@ -88,6 +88,18 @@ public class UserDao extends BaseDao {
 		}
 		return result;
 	}
+	
+	public void updateAccessToken(int userId, String accessToken) throws FacebookAppException {
+		String query = "UPDATE public.user SET access_token = ? where id = ?";
+		Connection connection = DBConnectionProvider.get();
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setString(1, accessToken);
+			statement.setInt(2, userId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private User getUserFromResultSet(ResultSet rs) throws SQLException {
 		User result = new User();

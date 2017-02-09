@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService {
 		return getDao().getUserByFacebookId(facebookId);
 	}
 
+	@Override
+	public void updateUserAccessToken(int userId, String accessToken) throws FacebookAppException {
+		getDao().updateAccessToken(userId, accessToken);
+	}
+
 	private UserDao getDao() {
 		return DaoFactory.getUserDao();
 	}

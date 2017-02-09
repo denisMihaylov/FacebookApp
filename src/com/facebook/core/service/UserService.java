@@ -12,5 +12,6 @@ public interface UserService {
 	public List<User> getAllUsers();
 	public int registerUser(User user) throws FacebookAppException;
 	public User getUserByFacebookId(long facebookId) throws FacebookAppException;
+	public void updateUserAccessToken(int userId, String accessToken) throws FacebookAppException;
 
 }

@@ -13,12 +13,10 @@ import com.facebook.core.service.FacebookFeedService;
 import com.facebook.core.service.ServiceFactory;
 import com.facebook.core.service.UserService;
 
-import facebook4j.Facebook;
 import facebook4j.FacebookException;
-import facebook4j.FacebookFactory;
+import facebook4j.Group;
 import facebook4j.Post;
 import facebook4j.ResponseList;
-import facebook4j.auth.AccessToken;
 
 public class FacebookFeedServiceImpl implements FacebookFeedService {
 
@@ -27,18 +25,25 @@ public class FacebookFeedServiceImpl implements FacebookFeedService {
 		User user = getUserService().getUserById(userId);
 		FacebookClient client = new FacebookClient(user.getAccessToken());
 		try {
-			ResponseList<Post> feed = client.test();
-			System.out.println(feed);
+			List<FacebookFeedEntry> result = new ArrayList<>();
+			ResponseList<Group> groups = client.getAllUserGroups();
+			for (Group group : groups) {
+				ResponseList<Post> groupFeed = client.getGroupFeed(group.getId());
+				for (Post post : groupFeed) {
+					result.add(new FacebookFeedEntry(post));
+				}
+			}
+			return result;
 		} catch (FacebookException e) {
 			e.printStackTrace();
+			throw new FacebookAppException("Error while getting feed");
 		}
-		return new ArrayList<>();
 	}
 
 	private FacebookFeedDao getDao() {
 		return DaoFactory.getFacebookFeedDao();
 	}
-	
+
 	private UserService getUserService() {
 		return ServiceFactory.getUserService();
 	}

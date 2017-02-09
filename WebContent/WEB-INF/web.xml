@@ -39,6 +39,11 @@
 		<servlet-name>TableContent</servlet-name>
 		<servlet-class>com.facebook.servlet.TableContentServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ViewFacebookEntry</servlet-name>
+		<servlet-class>com.facebook.servlet.ViewFeedServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
@@ -58,6 +63,11 @@
 	<servlet-mapping>
 		<servlet-name>TableContent</servlet-name>
 		<url-pattern>/table</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ViewFacebookEntry</servlet-name>
+		<url-pattern>/view</url-pattern>
 	</servlet-mapping>
 	
 </web-app>

@@ -5,14 +5,18 @@ import com.facebook.core.model.types.FacebookFeedEntryStatus;
 import facebook4j.Post;
 
 public class FacebookFeedEntry {
-	
+
 	private String id;
-	private String message;
-	private FacebookFeedEntryStatus status;
-	
+	private String content;
+	private FacebookFeedEntryStatus status = FacebookFeedEntryStatus.NEW;
+
 	public FacebookFeedEntry(Post post) {
 		this.id = post.getId();
-		this.message = post.getMessage();
+		if (post.getStory() == null || post.getStory().isEmpty()) {
+			this.content = post.getMessage();
+		} else {
+			this.content = post.getStory();
+		}
 	}
 
 	public String getId() {
@@ -23,12 +27,12 @@ public class FacebookFeedEntry {
 		this.id = id;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getContent() {
+		return content;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public FacebookFeedEntryStatus getStatus() {

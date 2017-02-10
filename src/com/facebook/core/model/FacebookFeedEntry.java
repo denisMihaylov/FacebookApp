@@ -9,6 +9,7 @@ public class FacebookFeedEntry {
 	private String id;
 	private String content;
 	private FacebookFeedEntryStatus status = FacebookFeedEntryStatus.NEW;
+	private int userId;
 
 	public FacebookFeedEntry(Post post) {
 		this.id = post.getId();
@@ -41,6 +42,14 @@ public class FacebookFeedEntry {
 
 	public void setStatus(FacebookFeedEntryStatus status) {
 		this.status = status;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

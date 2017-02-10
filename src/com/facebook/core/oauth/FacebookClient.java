@@ -34,5 +34,9 @@ public class FacebookClient {
 	public String renewAccessToken() throws FacebookException {
 		return facebook.extendTokenExpiration(accessToken).getToken();
 	}
+	
+	public Post getPost(String postId) throws FacebookException {
+		return facebook.getPost(postId);
+	}
 
 }

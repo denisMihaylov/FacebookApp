@@ -40,6 +40,23 @@ public class FacebookFeedServiceImpl implements FacebookFeedService {
 		}
 	}
 
+	@Override
+	public void viewFeed(int userId, String feedId) throws FacebookAppException {
+		User user = getUserService().getUserById(userId);
+		FacebookClient client = new FacebookClient(user.getAccessToken());
+		try {
+			Post post = client.getPost(feedId);
+			String content = post.getStory();
+			if (content == null || content.isEmpty()) {
+				content = post.getMessage();
+			}
+			getDao().viewFeed(userId, feedId, content);
+		} catch (FacebookException e) {
+			e.printStackTrace();
+			throw new FacebookAppException("Error while viewing post");
+		}
+	}
+
 	private FacebookFeedDao getDao() {
 		return DaoFactory.getFacebookFeedDao();
 	}

@@ -47,18 +47,14 @@ function createTable() {
 		for (var i = 0; i < table.rows.length; i++) {
 			for (var j = 0; j < table.rows[i].cells.length; j++)
 				table.rows[i].onclick = function() {
-					console.log(this.rowIndex);
+					this.cells[0].className = this.cells[0].className.replace(' active', '');
 					window.open("https://www.facebook.com/" + tableItems[this.rowIndex].id, '_blank');
 					var xhr = new XMLHttpRequest();
 					xhr.open('POST', 'view', true);
-					var rowIndex = this.rowIndex;
-					xhr.onreadystatechange = function() {
-						if (this.readyState === 4 && this.status === 200) {
-							console.log("Item has been read");
-						}
-					}
+					tableItems[this.rowIndex].status = 'VIEWED';
 					xhr.send(JSON.stringify({
-						id : tableItems[this.rowIndex].id
+						feedId : tableItems[this.rowIndex].id,
+						userId : id
 					}));
 				};
 		}

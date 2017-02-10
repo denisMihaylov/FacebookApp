@@ -16,7 +16,6 @@ public class TableContentServlet extends BaseServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("In table Content");
 		try {
 			int userId = Integer.valueOf(request.getParameter("id"));
 			List<FacebookFeedEntry> result = getFacebookFeedService().getFacebookFeedFromAllGroups(userId);

@@ -30,7 +30,6 @@
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
 	<div class="form">
-
 		<ul class="tab-group">
 			<li class="tab active" id="registerTab"><a onclick="goToRegistration();return false;">Register</a></li>
 			<li class="tab" id="loginTab"><a onclick="goToLogin();return false;">Log In</a></li>
@@ -75,6 +74,19 @@
 					<button class="button button-block" >Forgot Password?</button>
 				</form>
 			</div>
+		</div>
+	</div>
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+			<h2>Checking </h2>
+		</div>
+		<div class="modal-body">
+			<p>Some text in the Modal Body</p>
+			<p>Some other text...</p>
+		</div>
+		<div class="modal-footer">
+			<h3>Modal Footer</h3>
 		</div>
 	</div>
 	<script src="resources/js/index.js"></script>

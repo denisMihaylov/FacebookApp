@@ -2,12 +2,14 @@ package com.facebook.core.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.facebook.core.dao.DaoFactory;
 import com.facebook.core.dao.FacebookFeedDao;
 import com.facebook.core.error.FacebookAppException;
 import com.facebook.core.model.FacebookFeedEntry;
 import com.facebook.core.model.User;
+import com.facebook.core.model.types.FacebookFeedEntryStatus;
 import com.facebook.core.oauth.FacebookClient;
 import com.facebook.core.service.FacebookFeedService;
 import com.facebook.core.service.ServiceFactory;
@@ -16,7 +18,6 @@ import com.facebook.core.service.UserService;
 import facebook4j.FacebookException;
 import facebook4j.Group;
 import facebook4j.Post;
-import facebook4j.ResponseList;
 
 public class FacebookFeedServiceImpl implements FacebookFeedService {
 
@@ -25,14 +26,24 @@ public class FacebookFeedServiceImpl implements FacebookFeedService {
 		User user = getUserService().getUserById(userId);
 		FacebookClient client = new FacebookClient(user.getAccessToken());
 		try {
+			// Get all the feed from the database
+			Map<String, FacebookFeedEntry> entriesMap = getDao().getFacebookFeedForUserAsMap(userId);
 			List<FacebookFeedEntry> result = new ArrayList<>();
-			ResponseList<Group> groups = client.getAllUserGroups();
+			List<Group> groups = client.getAllUserGroups();
 			for (Group group : groups) {
-				ResponseList<Post> groupFeed = client.getGroupFeed(group.getId());
+				List<Post> groupFeed = client.getGroupFeed(group.getId());
 				for (Post post : groupFeed) {
-					result.add(new FacebookFeedEntry(post));
+					FacebookFeedEntry feedEntry = new FacebookFeedEntry(post);
+					FacebookFeedEntry fromdb = entriesMap.get(feedEntry.getId());
+					if (fromdb == null || fromdb.getStatus() != FacebookFeedEntryStatus.DELETED) {
+						result.add(feedEntry);
+						if (fromdb != null) {
+							feedEntry.setStatus(fromdb.getStatus());
+						}
+					}
 				}
 			}
+
 			return result;
 		} catch (FacebookException e) {
 			e.printStackTrace();

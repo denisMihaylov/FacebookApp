@@ -1,10 +1,10 @@
 var startIndex = window.location.href.indexOf("id=") + "id=".length;
-var id = window.location.href.substr(startIndex);
+var userId = window.location.href.substr(startIndex);
 var tableItems;
 
 // Loads the table content
 var xhr1 = new XMLHttpRequest();
-xhr1.open('GET', 'table?id=' + id, true);
+xhr1.open('GET', 'table?id=' + userId, true);
 
 xhr1.onreadystatechange = function() {
 	if (this.readyState === 4 && this.status === 200) {
@@ -16,7 +16,7 @@ xhr1.send(null);
 
 // Loads information about the user
 var xhr = new XMLHttpRequest();
-xhr.open('GET', 'home?id=' + id, true);
+xhr.open('GET', 'home?id=' + userId, true);
 
 xhr.onreadystatechange = function() {
 	if (this.readyState === 4 && this.status === 200) {
@@ -26,10 +26,8 @@ xhr.onreadystatechange = function() {
 xhr.send(null);
 
 function createTable() {
-	var content = document.getElementById("content");
-	var table = document.createElement('table');
-	table.setAttribute("id", "myTable");
-	table.setAttribute('border', '1');
+	var table = document.getElementById('myTable');
+	var currentTableBody = document.getElementById('myTableBody');
 	var tableBody = document.createElement('tbody');
 	for (var i = 0; i < tableItems.length; i++) {
 		var tr = document.createElement('tr');
@@ -41,22 +39,52 @@ function createTable() {
 		tr.appendChild(td);
 		tableBody.appendChild(tr);
 	}
-	table.appendChild(tableBody);
-	content.appendChild(table);
-	if (table != null) {
-		for (var i = 0; i < table.rows.length; i++) {
-			for (var j = 0; j < table.rows[i].cells.length; j++)
-				table.rows[i].onclick = function() {
-					this.cells[0].className = this.cells[0].className.replace(' active', '');
-					window.open("https://www.facebook.com/" + tableItems[this.rowIndex].id, '_blank');
-					var xhr = new XMLHttpRequest();
-					xhr.open('POST', 'view', true);
-					tableItems[this.rowIndex].status = 'VIEWED';
-					xhr.send(JSON.stringify({
-						feedId : tableItems[this.rowIndex].id,
-						userId : id
-					}));
-				};
-		}
+	if (currentTableBody) {
+		table.removeChild(currentTableBody);
 	}
+	tableBody.setAttribute("id", "myTableBody");
+	table.appendChild(tableBody);
+	for (var i = 0; i < tableBody.rows.length; i++) {
+		for (var j = 0; j < tableBody.rows[i].cells.length; j++)
+			tableBody.rows[i].onclick = function() {
+				this.cells[0].className = this.cells[0].className.replace(' active', '');
+				window.open("https://www.facebook.com/" + tableItems[this.rowIndex - 1].id, '_blank');
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'view', true);
+				xhr.send(JSON.stringify({
+					feedId : tableItems[this.rowIndex].id,
+					userId : userId
+				}));
+			};
+	}
+}
+
+function onFilter() {
+	document.getElementById('filterModal').style.display = "block";
+}
+
+function onSort() {
+	document.getElementById('sortModal').style.display = "block";
+}
+
+function onSetInterest() {
+	document.getElementById('setInterestModal').style.display = "block";
+}
+
+function closeModal(modalId) {
+	document.getElementById(modalId).style.display = "none";
+}
+
+var sortFunctions = [function(a, b) {
+	return b.likesCount - a.likesCount;
+}, function(a, b) {
+	return b.commentsCount - a.commentsCount;
+}, function(a, b) {
+	return new Date(b.postDate).getTime() - new Date(a.postDate).getTime();
+}];
+
+function onSortBy(sortType) {
+	tableItems.sort(sortFunctions[sortType]);
+	createTable();
+	closeModal('sortModal');
 }

@@ -82,10 +82,6 @@ function onSort() {
 	document.getElementById('sortModal').style.display = "block";
 }
 
-function onSetInterest() {
-	document.getElementById('setInterestModal').style.display = "block";
-}
-
 function closeModal(modalId) {
 	document.getElementById(modalId).style.display = "none";
 }
@@ -113,9 +109,10 @@ var filterFunctions = [function(item) {
 }];
 
 var beforeFilter = [function() {
-	do {
-		filterVal= prompt("Please enter the maximum age of a post in days", "1");
-	} while (parseInt(filterVal, 10) != filterVal);
+	filterVal = prompt("Please enter the maximum age of a post in days", "1");
+	if (parseInt(filterVal, 10) != filterVal) {
+		filterVal = 10000;
+	}
 }, function() {
 	filterVal = prompt("Please enter a search string", user.firstName + " " + user.lastName);
 }, function() {

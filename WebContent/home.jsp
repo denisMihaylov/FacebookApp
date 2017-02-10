@@ -5,6 +5,13 @@
 	<link rel="stylesheet" href="resources/css/style.css" type="text/css">
 </head>
 <body>
+	<div id="loadingDataModal" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="modalHeader">Loading Data...</h2>
+			</div>
+		</div>
+	</div>
 	<div id="filterModal" class="modal">
 		<div class="modal-content">
 			<div class="modal-header">

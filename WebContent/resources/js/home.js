@@ -11,13 +11,17 @@ var noFilter = function(item) {
 var filterFunction = noFilter;
 
 // Loads the table content
+document.getElementById('loadingDataModal').style.display = 'block';
 var xhr1 = new XMLHttpRequest();
 xhr1.open('GET', 'table?id=' + userId, true);
 
 xhr1.onreadystatechange = function() {
-	if (this.readyState === 4 && this.status === 200) {
-		tableItems = JSON.parse(this.responseText);
-		createTable();
+	if (this.readyState === 4) {
+		document.getElementById('loadingDataModal').style.display = 'none';
+		if (this.status === 200) {
+			tableItems = JSON.parse(this.responseText);
+			createTable();
+		}
 	}
 }
 xhr1.send(null);

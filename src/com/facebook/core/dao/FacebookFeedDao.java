@@ -24,15 +24,14 @@ public class FacebookFeedDao extends BaseDao {
 
 	public void viewFeed(int userId, String feedId, String content) throws FacebookAppException {
 		Connection con = DBConnectionProvider.get();
-		String query = "INSERT INTO public.facebook_feed_entry (id, content, user_id, status) values(?,?,?,?)";
+		String query = "INSERT INTO public.facebook_feed_entry (id, user_id, status) values(?,?,?)";
 		try (PreparedStatement registerStatement = con.prepareStatement(query)) {
 			registerStatement.setString(1, feedId);
-			registerStatement.setString(2, content);
-			registerStatement.setInt(3, userId);
-			registerStatement.setString(4, FacebookFeedEntryStatus.VIEWED.name());
+			registerStatement.setInt(2, userId);
+			registerStatement.setString(3, FacebookFeedEntryStatus.VIEWED.name());
 			registerStatement.executeUpdate();
 		} catch (SQLException e) {
-			if (e.getMessage().contains("unique_feed_id")) {
+			if (e.getMessage().contains("facebook_feed_entry_pkey")) {
 				// Facebook entry is in the Database -> update status
 				updateFeedStatus(feedId, FacebookFeedEntryStatus.VIEWED);
 			} else {
@@ -83,8 +82,7 @@ public class FacebookFeedDao extends BaseDao {
 
 	private FacebookFeedEntry getFacebookFeedEntryFromResultSet(ResultSet rs) throws SQLException {
 		FacebookFeedEntry result = new FacebookFeedEntry();
-		result.setId(rs.getString("id").trim());
-		result.setContent(rs.getString("content").trim());
+		result.setId(rs.getString("id"));
 		result.setStatus(FacebookFeedEntryStatus.valueOf(rs.getString("status")));
 		result.setUserId(rs.getInt("user_id"));
 		return result;

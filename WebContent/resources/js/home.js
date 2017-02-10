@@ -32,6 +32,9 @@ function createTable() {
 	for (var i = 0; i < tableItems.length; i++) {
 		var tr = document.createElement('tr');
 		var td = document.createElement('td');
+		if (tableItems[i].id == '1410914212269973_1507479655946761') {
+			console.log(5);
+		}
 		if (tableItems[i].status == 'NEW') {
 			td.className += ' active';
 		}
@@ -48,11 +51,12 @@ function createTable() {
 		for (var j = 0; j < tableBody.rows[i].cells.length; j++)
 			tableBody.rows[i].onclick = function() {
 				this.cells[0].className = this.cells[0].className.replace(' active', '');
+				tableItems[this.rowIndex - 1].status = 'VIEWED';
 				window.open("https://www.facebook.com/" + tableItems[this.rowIndex - 1].id, '_blank');
 				var xhr = new XMLHttpRequest();
 				xhr.open('POST', 'view', true);
 				xhr.send(JSON.stringify({
-					feedId : tableItems[this.rowIndex].id,
+					feedId : tableItems[this.rowIndex - 1].id,
 					userId : userId
 				}));
 			};

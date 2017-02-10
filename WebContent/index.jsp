@@ -8,16 +8,15 @@
 <body>
 	<script>
 		window.fbAsyncInit = function() {
-			FB.Event.subscribe('auth.statusChange', function(response) {
-			    statusChangeCallback(response);
-			});
 			FB.init({
 				appId : '267142873716474',
 				cookie : true,
 				xfbml : true,
 				version : 'v2.8',
-				status : true
 			});
+			FB.getLoginStatus(function(response){
+				statusChangeCallback(response);
+		    });
 		};
 		(function(d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
@@ -29,7 +28,7 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-	<div class="form">
+	<div id="loginDiv" class="form">
 		<ul class="tab-group">
 			<li class="tab active" id="registerTab"><a onclick="goToRegistration();return false;">Register</a></li>
 			<li class="tab" id="loginTab"><a onclick="goToLogin();return false;">Log In</a></li>
@@ -76,17 +75,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal-content">
-		<div class="modal-header">
-			<span class="close">&times;</span>
-			<h2>Checking </h2>
-		</div>
-		<div class="modal-body">
-			<p>Some text in the Modal Body</p>
-			<p>Some other text...</p>
-		</div>
-		<div class="modal-footer">
-			<h3>Modal Footer</h3>
+	<div id="loginCheckModal" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="modalHeader">Connecting to Facebook.</h2>
+			</div>
 		</div>
 	</div>
 	<script src="resources/js/index.js"></script>

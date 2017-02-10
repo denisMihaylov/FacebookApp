@@ -1,5 +1,6 @@
 var isRegister = false;
 var user = undefined;
+document.getElementById('loginCheckModal').style.display = "block";
 
 function navToHome() {
 	if (this.readyState === 4 && this.status === 200) {
@@ -7,6 +8,9 @@ function navToHome() {
 	}
 }
 function statusChangeCallback(response) {
+	setTimeout(function() {
+		document.getElementById('loginCheckModal').style.display = "none";
+	}, 1000);
 	if (isRegister) {
 		isRegister = false;
 		return;

@@ -1,6 +1,14 @@
 var startIndex = window.location.href.indexOf("id=") + "id=".length;
 var userId = window.location.href.substr(startIndex);
 var tableItems;
+var filterVal;
+var user;
+
+var noFilter = function(item) {
+	return true;
+}
+
+var filterFunction = noFilter;
 
 // Loads the table content
 var xhr1 = new XMLHttpRequest();
@@ -20,7 +28,7 @@ xhr.open('GET', 'home?id=' + userId, true);
 
 xhr.onreadystatechange = function() {
 	if (this.readyState === 4 && this.status === 200) {
-		console.log("Information for the user: " + this.responseText);
+		user = JSON.parse(this.responseText);
 	}
 }
 xhr.send(null);
@@ -30,17 +38,16 @@ function createTable() {
 	var currentTableBody = document.getElementById('myTableBody');
 	var tableBody = document.createElement('tbody');
 	for (var i = 0; i < tableItems.length; i++) {
-		var tr = document.createElement('tr');
-		var td = document.createElement('td');
-		if (tableItems[i].id == '1410914212269973_1507479655946761') {
-			console.log(5);
+		if (filterFunction(tableItems[i])) {
+			var tr = document.createElement('tr');
+			var td = document.createElement('td');
+			if (tableItems[i].status == 'NEW') {
+				td.className += ' active';
+			}
+			td.appendChild(document.createTextNode(tableItems[i].content));
+			tr.appendChild(td);
+			tableBody.appendChild(tr);
 		}
-		if (tableItems[i].status == 'NEW') {
-			td.className += ' active';
-		}
-		td.appendChild(document.createTextNode(tableItems[i].content));
-		tr.appendChild(td);
-		tableBody.appendChild(tr);
 	}
 	if (currentTableBody) {
 		table.removeChild(currentTableBody);
@@ -91,4 +98,29 @@ function onSortBy(sortType) {
 	tableItems.sort(sortFunctions[sortType]);
 	createTable();
 	closeModal('sortModal');
+}
+
+var filterFunctions = [function(item) {
+	return new Date(item.postDate).getTime() + filterVal * 24 * 60 * 60 * 1000 > new Date().getTime();
+}, function(item) {
+	return item.content.indexOf(filterVal) != -1;
+}, function(item) {
+	return item.pictureUrl;
+}];
+
+var beforeFilter = [function() {
+	do {
+		filterVal= prompt("Please enter the maximum age of a post in days", "1");
+	} while (parseInt(filterVal, 10) != filterVal);
+}, function() {
+	filterVal = prompt("Please enter a search string", user.firstName + " " + user.lastName);
+}, function() {
+	
+}];
+
+function onFilterBy(filterType) {
+	beforeFilter[filterType]();
+	filterFunction = filterFunctions[filterType];
+	createTable();
+	closeModal('filterModal');
 }

@@ -33,9 +33,6 @@ public class FacebookFeedServiceImpl implements FacebookFeedService {
 			for (Group group : groups) {
 				List<Post> groupFeed = client.getGroupFeed(group.getId());
 				for (Post post : groupFeed) {
-					if (post.getId().equals("1410914212269973_1507479655946761")) {
-						System.out.println("TEST");
-					}
 					FacebookFeedEntry feedEntry = new FacebookFeedEntry(post);
 					FacebookFeedEntry fromdb = entriesMap.get(feedEntry.getId());
 					if (fromdb == null || fromdb.getStatus() != FacebookFeedEntryStatus.DELETED) {

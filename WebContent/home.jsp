@@ -12,8 +12,9 @@
 				<h2 id="modalHeader">Filter By</h2>
 			</div>
 			<div class="modal-body">
-				<p>Some text in the Modal Body</p>
-				<p>Some other text...</p>
+				<button class="myButton" onclick="onFilterBy(0);return false;">Recent events</button>
+				<button class="myButton" onclick="onFilterBy(1);return false;">Content</button>
+				<button class="myButton" onclick="onFilterBy(2);return false;">Posts with pictures</button>
 			</div>
 			<div class="modal-footer">
 			</div>
@@ -51,7 +52,7 @@
 	</div>
 	<div id="content" class="table">
 		<h1>Important Events</h1>
-		<table id="myTable">
+		<table id="myTable" style="width:100%">
 			<thead>
 				<tr>
 					<td>
